@@ -192,6 +192,17 @@ fi
 
 if [ ! -z "${_ingredients_dist}" ] ; then
   rm status 2>/dev/null || true
+  # Some packages depend on an exact package in "excludedeblist" file
+  # Use
+  # ingredients:
+  #   release:
+  #     - packagename
+  if [ ! -z "${_ingredients_release[0]}" ] ; then
+   for RELEASE in "${_ingredients_release[@]}" ; do
+    sed -i "s|"$RELEASE"|#"$RELEASE"|g" excludedeblist
+    echo "#*#*#*#*#############"$RELEASE
+   done
+  fi
   generate_status
 
   # Some packages depend on packages which we do not want to bundle,
