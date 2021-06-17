@@ -187,7 +187,13 @@ fi
 
 if [ ! -z "${_ingredients_dist}" ] ; then
   rm status 2>/dev/null || true
+  if [ ! -z "${_ingredients_release[0]}" ] ; then
+   for RELEASE in "${_ingredients_release[@]}" ; do
+    echo $RELEASE >> /tmp/freelib
+   done
+  fi
   generate_status
+  rm -Rf /tmp/freelib
 
   # Some packages depend on packages which we do not want to bundle,
   # in addition to the global excludes defined in excludedeblist.
